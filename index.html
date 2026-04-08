@@ -1,0 +1,3117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AVAR Academy Aptitude Test</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233B4B8A'/%3E%3Ctext x='50%%' y='55%%' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='800' font-size='20'%3EA%3C/text%3E%3C/svg%3E">
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <style>
+    html, body, #root { margin: 0; padding: 0; min-height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+const {
+  useState,
+  useEffect,
+  useRef
+} = React;
+
+// ─── QUIZ DATA ───
+const MODULES = [{
+  id: 1,
+  title: "Module 1 – Introduction and Understanding Data",
+  timeMinutes: 30,
+  questions: [{
+    q: "According to the module, which of the following is listed as a smart device?",
+    a: "Chiller controller",
+    b: "Smartphone",
+    c: "Generator panel",
+    d: "UPS bypass switch",
+    correct: "B",
+    cat: "Smart Devices"
+  }, {
+    q: "Which activity is given as an example of something a user may do on a smart device?",
+    a: "Synchronize a cooling tower",
+    b: "Stream a movie",
+    c: "Start a diesel generator",
+    d: "Perform cable testing",
+    correct: "B",
+    cat: "Smart Devices"
+  }, {
+    q: 'The "Every Minute of the Internet" slide is intended to show:',
+    a: "That internet use is very low",
+    b: "The massive volume of activity happening every 60 seconds online",
+    c: "Only cloud storage growth",
+    d: "Only email usage",
+    correct: "B",
+    cat: "Internet Demand"
+  }, {
+    q: "According to the module, roughly how many emails are sent every minute?",
+    a: "56,000",
+    b: "560,000",
+    c: "5.6 million",
+    d: "56 million",
+    correct: "B",
+    cat: "Internet Demand"
+  }, {
+    q: "According to the module, roughly how many hours of video are uploaded every minute?",
+    a: "50 hours",
+    b: "150 hours",
+    c: "500 hours",
+    d: "5,000 hours",
+    correct: "C",
+    cat: "Internet Demand"
+  }, {
+    q: 'According to the "1GB Value" slide, about how many songs can 1GB store?',
+    a: "370",
+    b: "3,700",
+    c: "37,000",
+    d: "370,000",
+    correct: "B",
+    cat: "Data Value"
+  }, {
+    q: "According to the module, about how many downloaded files can 1GB represent?",
+    a: "7,298",
+    b: "72,982",
+    c: "729,820",
+    d: "7,298,200",
+    correct: "B",
+    cat: "Data Value"
+  }, {
+    q: "What is the smallest unit of digital information?",
+    a: "Byte",
+    b: "Kilobyte",
+    c: "Bit",
+    d: "Megabyte",
+    correct: "C",
+    cat: "Data Units"
+  }, {
+    q: "How many bits are in 1 byte?",
+    a: "2 bits",
+    b: "4 bits",
+    c: "8 bits",
+    d: "16 bits",
+    correct: "C",
+    cat: "Data Units"
+  }, {
+    q: "According to the module, a kilobyte (KB) is equal to:",
+    a: "100 bytes",
+    b: "1,000 bytes",
+    c: "10,000 bytes",
+    d: "1,000,000 bytes",
+    correct: "B",
+    cat: "Data Units"
+  }, {
+    q: "According to the module, a gigabyte (GB) is equal to:",
+    a: "1,000,000 bytes",
+    b: "1,000,000,000 bytes",
+    c: "1,000,000,000,000 bytes",
+    d: "1,024 bytes",
+    correct: "B",
+    cat: "Data Units"
+  }, {
+    q: "Which larger unit is described as representing about the entire internet traffic for a day?",
+    a: "Petabyte",
+    b: "Exabyte",
+    c: "Zetabyte",
+    d: "Yottabyte",
+    correct: "B",
+    cat: "Larger Units"
+  }, {
+    q: "According to the module, which unit is associated with all the data generated globally in a year?",
+    a: "Petabyte",
+    b: "Exabyte",
+    c: "Zetabyte",
+    d: "Yottabyte",
+    correct: "C",
+    cat: "Larger Units"
+  }, {
+    q: "In digital information, binary digits are represented by:",
+    a: "Letters and numbers",
+    b: "1s and 0s",
+    c: "Only symbols",
+    d: "Colors and sounds",
+    correct: "B",
+    cat: "Binary"
+  }, {
+    q: "In the example in the module, when a mobile user presses send, the photo and text are reprocessed into:",
+    a: "Analog waves only",
+    b: "Binary",
+    c: "Mechanical signals",
+    d: "Printed code",
+    correct: "B",
+    cat: "Data Transmission"
+  }, {
+    q: "According to the module, the mobile transmission may be routed to the exchange using:",
+    a: "Copper busbar",
+    b: "Fiber-optic cable",
+    c: "Diesel fuel line",
+    d: "Wireless mouse",
+    correct: "B",
+    cat: "Data Transmission"
+  }, {
+    q: "According to the module, cloud computing gives businesses an opportunity to:",
+    a: "Remove all security concerns permanently",
+    b: "Scale services for far-reaching global availability",
+    c: "Eliminate all data centers",
+    d: "Avoid all operating costs",
+    correct: "B",
+    cat: "Cloud"
+  }, {
+    q: "According to the Q4 2024 chart in the module, which provider has the largest worldwide market share?",
+    a: "Google Cloud",
+    b: "Azure",
+    c: "Amazon AWS",
+    d: "Oracle",
+    correct: "C",
+    cat: "Cloud Providers"
+  }, {
+    q: "Which cloud service model provides virtualized computing components such as virtual servers, CPU, memory, storage, and network access?",
+    a: "SaaS",
+    b: "FaaS",
+    c: "IaaS",
+    d: "DaaS",
+    correct: "C",
+    cat: "Cloud Service Models"
+  }, {
+    q: "Which cloud service model is described as software made available to consumers through the provider's cloud infrastructure?",
+    a: "SaaS",
+    b: "STaaS",
+    c: "PaaS",
+    d: "IaaS",
+    correct: "A",
+    cat: "Cloud Service Models"
+  }]
+}, {
+  id: 2,
+  title: "Module 2 – What is a Data Center?",
+  timeMinutes: 30,
+  questions: [{
+    q: "How is a data center formally defined?",
+    a: "A network of servers spread across multiple buildings",
+    b: "A building, or portion of a building, whose primary function is to house servers and supporting infrastructure",
+    c: "Any room containing more than 10 computer racks",
+    d: "A cloud-based computing environment managed remotely",
+    correct: "B",
+    cat: "Definition"
+  }, {
+    q: "Which of the following is NOT one of the five functional requirements of a data center?",
+    a: "Providing power to maintain devices",
+    b: "Providing a temperature-controlled environment",
+    c: "Providing recreational space for staff",
+    d: "Providing connectivity to devices inside and outside",
+    correct: "C",
+    cat: "Functional Req."
+  }, {
+    q: "Which natural disaster is identified as the #1 threat impacting data centers?",
+    a: "Earthquakes",
+    b: "Tornadoes",
+    c: "Flooding",
+    d: "Lightning strikes",
+    correct: "C",
+    cat: "Location"
+  }, {
+    q: "What is the minimum recommended distance between a data center and a railroad or major highway?",
+    a: "200m (⅛ mile)",
+    b: "400m (¼ mile)",
+    c: "600m (⅓ mile)",
+    d: "800m (½ mile)",
+    correct: "D",
+    cat: "Location"
+  }, {
+    q: "What minimum distance must a data center maintain from a nuclear, munitions or defence plant?",
+    a: "400m (¼ mile)",
+    b: "800m (½ mile)",
+    c: "2km (1½ miles)",
+    d: "5km (3 miles)",
+    correct: "C",
+    cat: "Location"
+  }, {
+    q: "A 'Brownfield' data center site is best described as:",
+    a: "Real estate specifically procured to build a new data center from scratch",
+    b: "A pre-existing building allocated or identified to house a data center build",
+    c: "A data center built using prefabricated modular components",
+    d: "A site with known environmental or geological contamination",
+    correct: "B",
+    cat: "Build Options"
+  }, {
+    q: "Which data center build option was initially developed for military field deployment?",
+    a: "Greenfield build",
+    b: "Brownfield build",
+    c: "Prefabricated build",
+    d: "Containerized build",
+    correct: "D",
+    cat: "Build Options"
+  }, {
+    q: "What are the four main categories of data center?",
+    a: "Tier I, Tier II, Tier III, Tier IV",
+    b: "Greenfield, Brownfield, Prefabricated, Containerized",
+    c: "Enterprise, Colocation, Managed Hosting, Cloud Hosting",
+    d: "Private, Public, Hybrid, Community",
+    correct: "C",
+    cat: "DC Categories"
+  }, {
+    q: "In a colocation facility, which service level gives the customer the most managed experience?",
+    a: "Colo hosts, customer provides all equipment and connectivity",
+    b: "Colo provides connectivity, customer owns servers",
+    c: "Colo owns the servers, customer provides the application",
+    d: "Customer just buys a service",
+    correct: "D",
+    cat: "DC Categories"
+  }, {
+    q: "Why do many larger organisations choose to operate their own enterprise data center?",
+    a: "It is always cheaper than colocation",
+    b: "Security/control, reliability, responsiveness, and integration with corporate processes",
+    c: "Enterprise DCs receive preferential utility pricing",
+    d: "Government regulations require enterprises to own their own infrastructure",
+    correct: "B",
+    cat: "DC Categories"
+  }, {
+    q: "What is 'white space' in a data center?",
+    a: "Unused floor area reserved for future expansion",
+    b: "Administrative and office areas within the facility",
+    c: "The area housing electrical and mechanical plant",
+    d: "The area that houses mission-critical IT assets",
+    correct: "D",
+    cat: "Space Planning"
+  }, {
+    q: "What is 'grey space' in a data center?",
+    a: "The area housing electrical and mechanical plant environments",
+    b: "Empty aisles between server racks",
+    c: "Zones with lower physical security requirements",
+    d: "Office and support staff areas adjacent to the computer room",
+    correct: "A",
+    cat: "Space Planning"
+  }, {
+    q: "What does 99.999% (five nines) availability equate to in annual downtime?",
+    a: "52 minutes 9.8 seconds per year",
+    b: "8 hours 41 minutes 38 seconds per year",
+    c: "5 minutes 13 seconds per year",
+    d: "26 seconds per month",
+    correct: "C",
+    cat: "Availability/SLA"
+  }, {
+    q: "How is the overall Uptime Institute Tier rating of a site determined?",
+    a: "By averaging all subsystem tier ratings",
+    b: "By the highest-rated subsystem in the facility",
+    c: "By the lowest-rated subsystem that impacts operations",
+    d: "By the IT whitespace rating only",
+    correct: "C",
+    cat: "Tier System"
+  }, {
+    q: "Which redundancy model comprises two complete N-component systems running in parallel?",
+    a: "N",
+    b: "N+1",
+    c: "2N",
+    d: "2(N+1)",
+    correct: "C",
+    cat: "Tier System"
+  }, {
+    q: "Which Tier classification describes a 'concurrently maintainable' facility?",
+    a: "Tier I — single path, no redundancy",
+    b: "Tier II — single path with redundant components",
+    c: "Tier III — multiple paths, one active at a time",
+    d: "Tier IV — multiple simultaneously active paths",
+    correct: "C",
+    cat: "Tier System"
+  }, {
+    q: "What uniquely differentiates Tier IV from Tier III?",
+    a: "Tier IV requires a dedicated operations centre",
+    b: "Multiple distribution paths are ALL simultaneously active, with physically isolated redundant systems",
+    c: "Tier IV mandates a 99.999% uptime SLA",
+    d: "Tier IV facilities must be located in seismically stable zones",
+    correct: "B",
+    cat: "Tier System"
+  }, {
+    q: "What was the primary market driver for data center growth from the late 1990s onward?",
+    a: "Government mandates on data sovereignty and localisation",
+    b: "Transition from mainframe to mini-computer architectures",
+    c: "Growth in on-demand business workloads with variable and scalable demand",
+    d: "Decline in hardware costs enabling wider server ownership",
+    correct: "C",
+    cat: "Market Drivers"
+  }, {
+    q: "Cloud computing differs from traditional client-server architecture primarily because:",
+    a: "Cloud does not use physical servers",
+    b: "Cloud computing uses a pay-as-you-use model with on-demand, elastic services accessed over the network",
+    c: "Cloud providers do not offer SLAs",
+    d: "Cloud infrastructure must be owned by the customer organisation",
+    correct: "B",
+    cat: "DC Categories"
+  }, {
+    q: "Who is the sole authority authorised to certify a facility's Uptime Institute Tier level?",
+    a: "The facility's lead design engineer",
+    b: "An accredited third-party auditor",
+    c: "TIA or BICSI on behalf of Uptime Institute",
+    d: "Uptime Institute only",
+    correct: "D",
+    cat: "Tier System"
+  }]
+}, {
+  id: 3,
+  title: "Module 3 – Compliance",
+  timeMinutes: 30,
+  questions: [{
+    q: "What are the three pillars of compliance applicable to the data center sector?",
+    a: "Codes & Regulations; National/International Standards; Industry Guidelines and Best Practice",
+    b: "Health & Safety; Environmental; Security Regulations",
+    c: "ISO Standards; LEED Certifications; Government Mandates",
+    d: "Design Standards; Operational Standards; Sustainability Standards",
+    correct: "A",
+    cat: "Compliance Pillars"
+  }, {
+    q: "Under what circumstances can voluntary standards, guidelines and best practices become mandatory?",
+    a: "Only when adopted by a national government into law",
+    b: "When enshrined in a contract and/or required by an Authority Having Jurisdiction (AHJ)",
+    c: "When endorsed by ISO or IEC",
+    d: "Only when a data center seeks Tier certification",
+    correct: "B",
+    cat: "Compliance Pillars"
+  }, {
+    q: "Which organisation is described as the world's largest developer of voluntary international standards, made up of 162 member countries with its secretariat in Geneva?",
+    a: "ANSI",
+    b: "CENELEC",
+    c: "ISO",
+    d: "BSI",
+    correct: "C",
+    cat: "Standards Orgs"
+  }, {
+    q: "What is the primary role of CENELEC?",
+    a: "Accrediting American national standards through SDOs",
+    b: "Standardizing the electrotechnical engineering field across Europe and facilitating EU market access",
+    c: "Publishing data center infrastructure standards globally",
+    d: "Certifying data centers for energy efficiency compliance",
+    correct: "B",
+    cat: "Standards Orgs"
+  }, {
+    q: "What distinguishes BSI from other standards bodies?",
+    a: "It publishes the most international standards globally",
+    b: "It is the UK's National Standards Body and was the world's first national standards body",
+    c: "It exclusively covers data center and IT infrastructure standards",
+    d: "It is the governing body for ISO membership applications",
+    correct: "B",
+    cat: "Standards Orgs"
+  }, {
+    q: "Which of the following best describes what codes and regulations are designed to protect?",
+    a: "Energy efficiency and carbon reduction targets only",
+    b: "Safety and health of people, individual rights, national infrastructure, national security, and personal data",
+    c: "Vendor intellectual property and product certifications",
+    d: "Data center uptime and service level agreements",
+    correct: "B",
+    cat: "Codes & Regulations"
+  }, {
+    q: "Which US regulation governs occupational safety and health in data center workplaces?",
+    a: "NFPA 70",
+    b: "HIPAA",
+    c: "OSHA",
+    d: "SOX",
+    correct: "C",
+    cat: "Codes & Regulations"
+  }, {
+    q: "What does NFPA 70 regulate in a data center context?",
+    a: "Data protection and personal information handling",
+    b: "Electrical safety in the workplace",
+    c: "Fire suppression system design",
+    d: "Carbon reduction and energy efficiency",
+    correct: "B",
+    cat: "Codes & Regulations"
+  }, {
+    q: "By what body are data center regulations and codes subject to local compliance?",
+    a: "The relevant national ISO committee",
+    b: "Uptime Institute",
+    c: "The Authority Having Jurisdiction (AHJ)",
+    d: "The data center's own management team",
+    correct: "C",
+    cat: "Codes & Regulations"
+  }, {
+    q: "Which US legislation governs the protection of financial services customer data and requires safeguards for personal financial information?",
+    a: "HIPAA",
+    b: "SOX",
+    c: "GLBA",
+    d: "PCI DSS",
+    correct: "C",
+    cat: "Data Governance"
+  }, {
+    q: "Which data governance regulation specifically applies to healthcare data in the United States?",
+    a: "GDPR",
+    b: "HIPAA",
+    c: "PCI DSS",
+    d: "GLBA",
+    correct: "B",
+    cat: "Data Governance"
+  }, {
+    q: "Which standard specifically covers 'Telecommunications Infrastructure for Data Centers' and includes a ratings system comparable to Uptime Institute Tiers?",
+    a: "BS EN 50600",
+    b: "ISO/IEC 24764",
+    c: "TIA 942-C",
+    d: "ISO 22237",
+    correct: "C",
+    cat: "DC-Specific Standards"
+  }, {
+    q: "What is the relationship between the various data center-specific standards listed in the module?",
+    a: "Each standard is completely independent with no cross-references",
+    b: "Only TIA 942-C and Uptime Institute Tiers are recognised; all others are obsolete",
+    c: "All standards cross-reference each other and cover specific aspects in an interconnected way",
+    d: "EN 50600 supersedes all other data center standards globally",
+    correct: "C",
+    cat: "DC-Specific Standards"
+  }, {
+    q: "What is the key characteristic of 'self-imposed compliance' as described in the module?",
+    a: "It is mandatory under national law for all data centers",
+    b: "It is voluntary — organisations choose to comply to obtain a valued accreditation",
+    c: "It only applies to data centers operating in the EU",
+    d: "It replaces mandatory regulatory compliance where no law exists",
+    correct: "B",
+    cat: "Self-Imposed / ISO"
+  }, {
+    q: "Which ISO standard specifically covers Information Security Management Systems (ISMS)?",
+    a: "ISO 9001",
+    b: "ISO 14001",
+    c: "ISO 50001",
+    d: "ISO 27001",
+    correct: "D",
+    cat: "Self-Imposed / ISO"
+  }, {
+    q: "What does a Tier Certification of Design Documents (TCDD) confirm — and what does it NOT confirm?",
+    a: "It confirms the facility is fully Tier certified and operational",
+    b: "It confirms the design has been approved for construction but does NOT mean the data center is certified",
+    c: "It confirms the operational sustainability of the facility",
+    d: "It certifies that construction is complete and the Tier level is achieved",
+    correct: "B",
+    cat: "Uptime Certification"
+  }, {
+    q: "What does the Tier Certification of Operational Sustainability (TCOS) evaluate, and what award levels does it provide?",
+    a: "It evaluates design documents and awards Tier I–IV ratings",
+    b: "It evaluates the constructed facility's physical infrastructure compliance",
+    c: "It evaluates operational plans and behaviors for TCCF-qualified sites; awards Gold, Silver or Bronze",
+    d: "It evaluates energy efficiency only and awards a PUE rating",
+    correct: "C",
+    cat: "Uptime Certification"
+  }, {
+    q: "What is the M&O Stamp of Approval and how does it differ from TCOS?",
+    a: "It is identical to TCOS but for Tier I sites only",
+    b: "It is an independent review of operational excellence for non-Tier certified sites",
+    c: "It certifies that mechanical and electrical systems meet Tier IV requirements",
+    d: "It is a design document review for sites that have not yet begun construction",
+    correct: "B",
+    cat: "Uptime Certification"
+  }, {
+    q: "What is the difference between a 'Participant' and an 'Endorser' in the EU Code of Conduct for Data Centers?",
+    a: "Participants are government bodies; Endorsers are private companies",
+    b: "Participants are data center owners/operators who adopt EU energy objectives; Endorsers are vendors/consultants who promote the code's strategic objectives",
+    c: "Participants receive financial subsidies; Endorsers receive tax exemptions",
+    d: "Both roles are identical with different naming conventions only",
+    correct: "B",
+    cat: "EU Code of Conduct"
+  }, {
+    q: "What are the four LEED certification levels and their corresponding point thresholds?",
+    a: "Bronze (30), Silver (45), Gold (60), Platinum (75)",
+    b: "Certified (45), Silver (60), Gold (75), Platinum (90)",
+    c: "Basic (30), Standard (50), Advanced (70), Premium (90)",
+    d: "Tier I (40), Tier II (55), Tier III (70), Tier IV (85)",
+    correct: "B",
+    cat: "Green / Sustainability"
+  }]
+}, {
+  id: 4,
+  title: "Module 4 – Data Center Infrastructure",
+  timeMinutes: 30,
+  questions: [{
+    q: "In an enterprise network, what does SAN stand for?",
+    a: "System Access Node",
+    b: "Storage Area Network",
+    c: "Secure Application Network",
+    d: "Server Access Network",
+    correct: "B",
+    cat: "Network Structure"
+  }, {
+    q: "In structured cabling topology, what does MDA stand for?",
+    a: "Main Data Access",
+    b: "Main Distribution Area",
+    c: "Managed Device Area",
+    d: "Media Distribution Area",
+    correct: "B",
+    cat: "Structured Cabling"
+  }, {
+    q: "Which area is closest to the equipment in the structured cabling hierarchy?",
+    a: "MDA",
+    b: "ZDA",
+    c: "EDA",
+    d: "Entrance Room",
+    correct: "C",
+    cat: "Structured Cabling"
+  }, {
+    q: "In the traditional 3-layer data center network architecture, which layer sits between Core and Access/Edge?",
+    a: "Storage",
+    b: "Aggregation",
+    c: "Backbone",
+    d: "Distribution Panel",
+    correct: "B",
+    cat: "Network Architecture"
+  }, {
+    q: "In a leaf-and-spine architecture, leaf switches primarily connect to:",
+    a: "Other leaf switches only",
+    b: "End devices and spine switches",
+    c: "WAN providers only",
+    d: "Cooling controllers",
+    correct: "B",
+    cat: "Network Architecture"
+  }, {
+    q: "Which protocol is associated with storage attached networks in the module?",
+    a: "Ethernet",
+    b: "Fibre Channel",
+    c: "HTTP",
+    d: "Modbus",
+    correct: "B",
+    cat: "Protocols"
+  }, {
+    q: "What is the main role of a switch?",
+    a: "Convert AC to DC",
+    b: "Connect devices within a network",
+    c: "Provide long-term storage",
+    d: "Supply backup power",
+    correct: "B",
+    cat: "Network Components"
+  }, {
+    q: "What is the main role of a firewall?",
+    a: "Increase server RAM",
+    b: "Provide access control between trusted and untrusted networks",
+    c: "Replace routers",
+    d: "Convert copper to fiber",
+    correct: "B",
+    cat: "Network Components"
+  }, {
+    q: "What does a media converter do?",
+    a: "Balances UPS load",
+    b: "Converts one transmission media type to another",
+    c: "Stores log files",
+    d: "Distributes chilled water",
+    correct: "B",
+    cat: "Network Components"
+  }, {
+    q: "According to the module, a data center server is basically:",
+    a: "A desktop PC with speakers",
+    b: "A computer without peripherals like monitors and keyboards",
+    c: "A firewall appliance",
+    d: "A cooling controller",
+    correct: "B",
+    cat: "Servers"
+  }, {
+    q: "What is a key benefit of server virtualization?",
+    a: "More physical servers required",
+    b: "Reduced hardware utilization",
+    c: "Running multiple applications and operating systems on fewer hardware resources",
+    d: "Elimination of all maintenance",
+    correct: "C",
+    cat: "Virtualization"
+  }, {
+    q: "The module states that virtualization can increase hardware utilization to approximately:",
+    a: "10–20%",
+    b: "20–30%",
+    c: "60–80%",
+    d: "90–100% only",
+    correct: "C",
+    cat: "Virtualization"
+  }, {
+    q: "Why is storage considered mission-critical in the module?",
+    a: "Storage demand is decreasing",
+    b: "Storage is optional in modern businesses",
+    c: "Poor planning can lead to significant unplanned financial costs",
+    d: "Storage only affects cooling systems",
+    correct: "C",
+    cat: "Storage"
+  }, {
+    q: "Which network type usually covers large geographical areas?",
+    a: "LAN",
+    b: "MAN",
+    c: "WAN",
+    d: "PAN",
+    correct: "C",
+    cat: "Networks and Providers"
+  }, {
+    q: "Which of the following is listed as a key SLA element to manage with service providers?",
+    a: "Paint color of the telecom room",
+    b: "Helpdesk performance metrics",
+    c: "Rack door width",
+    d: "Cable tray height",
+    correct: "B",
+    cat: "Networks and Providers"
+  }, {
+    q: "Which management function focuses on reporting and resolving network component failures while minimizing downtime?",
+    a: "Capacity management",
+    b: "Security management",
+    c: "Fault management",
+    d: "Asset disposal management",
+    correct: "C",
+    cat: "Network Management"
+  }, {
+    q: "What is the primary purpose of a UPS in a data center?",
+    a: "Provide office lighting",
+    b: "Supply emergency backup power to critical IT load until generators engage",
+    c: "Replace generators permanently",
+    d: "Cool down server racks",
+    correct: "B",
+    cat: "Power Infrastructure"
+  }, {
+    q: "Which of the following is one of the three key functions of a UPS mentioned in the module?",
+    a: "Water treatment",
+    b: "Conditioning and smoothing power output to the IT load",
+    c: "Managing server virtualization",
+    d: "Providing WAN connectivity",
+    correct: "B",
+    cat: "UPS"
+  }, {
+    q: "According to ISO 8528-1, which is one of the three principal generator ratings?",
+    a: "Seasonal rating",
+    b: "Emergency standby power",
+    c: "Dynamic cloud rating",
+    d: "Rack-ready rating",
+    correct: "B",
+    cat: "Generators"
+  }, {
+    q: "What is the primary purpose of cooling in a data center?",
+    a: "Increase network bandwidth",
+    b: "Remove heat from the data center",
+    c: "Improve firewall security",
+    d: "Reduce storage capacity",
+    correct: "B",
+    cat: "Cooling"
+  }]
+}, {
+  id: 5,
+  title: "Module 5 – People in the Data Center",
+  timeMinutes: 30,
+  questions: [{
+    q: "Which group is specifically identified as a key stakeholder in the data center ecosystem?",
+    a: "Tourists",
+    b: "Customers",
+    c: "Neighbors",
+    d: "Auditors only",
+    correct: "B",
+    cat: "Stakeholders"
+  }, {
+    q: "What does the module say can create a language barrier in a data center?",
+    a: "Too many visitors",
+    b: 'Different terminologies and technologies used by different "tribes"',
+    c: "Lack of cooling systems",
+    d: "Too many shifts",
+    correct: "B",
+    cat: "Communication"
+  }, {
+    q: "According to the module, TLAs and FLAs can:",
+    a: "Improve all communication automatically",
+    b: "Obscure meaningful communication",
+    c: "Eliminate technical jargon",
+    d: "Replace all procedures",
+    correct: "B",
+    cat: "Communication"
+  }, {
+    q: "Who is described as the highest-ranking executive in the company?",
+    a: "CFO",
+    b: "CTO",
+    c: "CEO",
+    d: "COO",
+    correct: "C",
+    cat: "C-Suite"
+  }, {
+    q: "Which executive is responsible for managing the financial actions of a company?",
+    a: "CTO",
+    b: "CFO",
+    c: "CEO",
+    d: "Facilities Manager",
+    correct: "B",
+    cat: "C-Suite"
+  }, {
+    q: "Which executive is responsible for the corporate IT landscape, availability, productivity, and R&D program?",
+    a: "CEO",
+    b: "CFO",
+    c: "CTO",
+    d: "HR Director",
+    correct: "C",
+    cat: "C-Suite"
+  }, {
+    q: "Which manager typically acts as the conduit of information from the business' IT requirements to the building facility engineering team?",
+    a: "Security Manager",
+    b: "Data Center Manager",
+    c: "Finance Manager",
+    d: "Logistics Manager",
+    correct: "B",
+    cat: "Management Roles"
+  }, {
+    q: "Which manager is typically responsible for operation and maintenance of the building, power, cooling, and safety systems?",
+    a: "IT Manager",
+    b: "Facilities Manager",
+    c: "Admin Manager",
+    d: "Sales Manager",
+    correct: "B",
+    cat: "Management Roles"
+  }, {
+    q: "What is the primary responsibility of the Security Manager in the module?",
+    a: "Server deployment",
+    b: "Budget approval",
+    c: "Execution of the security program and guidance to security officers",
+    d: "Cooling tower inspection",
+    correct: "C",
+    cat: "Management Roles"
+  }, {
+    q: "In an Enterprise data center, services are primarily delivered to:",
+    a: "External tenants only",
+    b: "Company employees as internal customers",
+    c: "Equipment manufacturers",
+    d: "Government regulators",
+    correct: "B",
+    cat: "Customers"
+  }, {
+    q: "In a managed service or cloud data center, services are delivered to:",
+    a: "Only internal security staff",
+    b: "External customers",
+    c: "Only facilities teams",
+    d: "Only board members",
+    correct: "B",
+    cat: "Customers"
+  }, {
+    q: "What is a key role of data center designers?",
+    a: "Approve payroll",
+    b: "Create design solutions for new programs and complex upgrade projects",
+    c: "Manage cafeteria services",
+    d: "Perform only cleaning audits",
+    correct: "B",
+    cat: "Technical Teams"
+  }, {
+    q: "Which of the following is included in a data center design pack?",
+    a: "Vacation schedules",
+    b: "Detailed floorplans",
+    c: "Employee contracts",
+    d: "Marketing brochures",
+    correct: "B",
+    cat: "Technical Teams"
+  }, {
+    q: "DC facilities technicians may be specialized in:",
+    a: "Social media management",
+    b: "Power systems",
+    c: "Contract law only",
+    d: "Graphic design",
+    correct: "B",
+    cat: "Facilities Technicians"
+  }, {
+    q: "Which of the following is a day-to-day task of DC facilities technicians?",
+    a: "Equipment and system monitoring and measuring",
+    b: "Developing cloud pricing",
+    c: "Running HR onboarding only",
+    d: "Approving shareholder reports",
+    correct: "A",
+    cat: "Facilities Technicians"
+  }, {
+    q: "DC IT technicians may be specialized in which of the following?",
+    a: "Switched networks",
+    b: "Waste removal",
+    c: "Civil architecture",
+    d: "Financial audits",
+    correct: "A",
+    cat: "IT Technicians"
+  }, {
+    q: "Which of the following is listed as a day-to-day task of DC IT technicians?",
+    a: "Circuit provisioning",
+    b: "Recycling contracts",
+    c: "Fire suppression testing only",
+    d: "Insurance underwriting",
+    correct: "A",
+    cat: "IT Technicians"
+  }, {
+    q: "Which of the following is listed as an example of an external supplier?",
+    a: "Energy providers",
+    b: "Shareholders",
+    c: "Board members",
+    d: "Internal customers",
+    correct: "A",
+    cat: "Suppliers"
+  }, {
+    q: "According to the module, surveys have identified what as a major contribution to data center failures?",
+    a: "Bad weather",
+    b: "Human error",
+    c: "Rack color inconsistency",
+    d: "Customer feedback",
+    correct: "B",
+    cat: "Human Factors"
+  }, {
+    q: "What should managers ensure is optimized to help the business succeed?",
+    a: "Office furniture layout",
+    b: "Workforce skillsets",
+    c: "Parking allocation",
+    d: "Brand slogans",
+    correct: "B",
+    cat: "Training and Skills"
+  }]
+}, {
+  id: 6,
+  title: "Module 6 – Data Center Challenges",
+  timeMinutes: 30,
+  questions: [{
+    q: "What does the '4 Cs' framework refer to in data center management?",
+    a: "Cost, Capacity, Connectivity, Cooling",
+    b: "Compute, Cloud, Control, Cooling",
+    c: "Capacity, Connectivity, Cooling, Cabling",
+    d: "Configuration, Cost, Control, Compute",
+    correct: "A",
+    cat: "The 4 Cs"
+  }, {
+    q: "According to studies, what percentage of data centers fail to achieve more than 60% of their intended IT design capacity?",
+    a: "Over 50%",
+    b: "Over 70%",
+    c: "Over 80%",
+    d: "Over 90%",
+    correct: "C",
+    cat: "The 4 Cs"
+  }, {
+    q: "How much energy can a facility housing around 1,000 servers consume in a single month?",
+    a: "Enough to power ~500 homes for a year",
+    b: "Enough to power ~5,000 homes for a year",
+    c: "Enough to power ~16,800 homes for a year",
+    d: "Enough to power ~50,000 homes for a year",
+    correct: "C",
+    cat: "Power & Efficiency"
+  }, {
+    q: "What metric is used to measure energy efficiency in data centers?",
+    a: "COP",
+    b: "PUE",
+    c: "SHR",
+    d: "EER",
+    correct: "B",
+    cat: "Power & Efficiency"
+  }, {
+    q: "What does SHR stand for in the context of data center cooling?",
+    a: "Standard Heat Removal",
+    b: "Server Heat Ratio",
+    c: "Sensible Heat Ratio",
+    d: "System Heat Rate",
+    correct: "C",
+    cat: "Cooling"
+  }, {
+    q: "Cooling in a data center is not just about having enough capacity. What is equally crucial?",
+    a: "Reducing humidity to zero",
+    b: "Ensuring cool air reaches the right places and hot air is removed",
+    c: "Maximising the number of CRACs",
+    d: "Keeping the temperature below 10°C",
+    correct: "B",
+    cat: "Cooling"
+  }, {
+    q: "What does DCIM stand for?",
+    a: "Data Center Integration Module",
+    b: "Data Center Infrastructure Management",
+    c: "Distributed Computing Infrastructure Model",
+    d: "Data Center Information Monitoring",
+    correct: "B",
+    cat: "DCIM"
+  }, {
+    q: "Which DCIM function uses scenario modelling and what-if analysis to prepare for future needs?",
+    a: "Change Management",
+    b: "Asset Discovery & Tracking",
+    c: "Capacity Planning",
+    d: "Provisioning",
+    correct: "C",
+    cat: "DCIM"
+  }, {
+    q: "What does MAC stand for in data center operations?",
+    a: "Monitoring, Auditing, and Control",
+    b: "Moves, Adds and Changes",
+    c: "Management, Administration, and Configuration",
+    d: "Maintenance, Audit, and Compliance",
+    correct: "B",
+    cat: "MACs"
+  }, {
+    q: "Which of the following is NOT listed as a driver for decommissioning equipment?",
+    a: "Obsolete or end-of-life equipment",
+    b: "Need to free up space for priority systems",
+    c: "Equipment requiring a firmware upgrade",
+    d: "Lease or contract terminations",
+    correct: "C",
+    cat: "Decommissioning"
+  }, {
+    q: "What are the three equipment redundancy options in a decommission strategy (the 3 Rs)?",
+    a: "Remove, Replace, Recycle",
+    b: "Reduce, Reuse, Recycle",
+    c: "Retire, Repurpose, Reclaim",
+    d: "Restrict, Reuse, Remove",
+    correct: "B",
+    cat: "Decommissioning"
+  }, {
+    q: "In the 'onion' physical protection model, what is the underlying principle?",
+    a: "Perimeter-only defence",
+    b: "Zero-trust architecture",
+    c: "Strength in depth with layered protection",
+    d: "Biometric-first access",
+    correct: "C",
+    cat: "Security"
+  }, {
+    q: "What should a protection plan begin with to identify hazards and vulnerabilities?",
+    a: "Staff background checks",
+    b: "Comprehensive risk and threat assessments",
+    c: "Installation of CCTV",
+    d: "ISO 27001 certification",
+    correct: "B",
+    cat: "Security"
+  }, {
+    q: "In the fortress approach, what is the purpose of diverse routing and secure steel conduits?",
+    a: "To improve network speed",
+    b: "To protect wiring through diverse paths",
+    c: "To reduce installation costs",
+    d: "To support wireless connectivity",
+    correct: "B",
+    cat: "Security"
+  }, {
+    q: "Which of the following is a listed fire prevention measure for the data center?",
+    a: "Install halon gas on all racks",
+    b: "Regularly inspect HVAC reheat coils to prevent ignition risks",
+    c: "Keep server inlet temperatures above 30°C",
+    d: "Avoid installing fire suppression near servers",
+    correct: "B",
+    cat: "Fire & DR"
+  }, {
+    q: "A disaster recovery site that is fully mirrored with near real-time replication is called a:",
+    a: "Cold site",
+    b: "Warm site",
+    c: "Hot site",
+    d: "Mirror site",
+    correct: "C",
+    cat: "Fire & DR"
+  }, {
+    q: "What do RTO and RPO stand for in a backup and disaster recovery strategy?",
+    a: "Recovery Time Objective and Recovery Point Objective",
+    b: "Real-Time Operations and Recovery Process Overview",
+    c: "Redundancy Threshold Operations and Recovery Protocol Overview",
+    d: "Recovery Throughput Objective and Recovery Process Objective",
+    correct: "A",
+    cat: "Fire & DR"
+  }, {
+    q: "What is the global energy efficiency pledge target year in the Energy Efficiency Directive?",
+    a: "2025",
+    b: "2027",
+    c: "2030",
+    d: "2035",
+    correct: "C",
+    cat: "Sustainability & Future"
+  }, {
+    q: "How many IoT connected devices are projected by 2030?",
+    a: "Over 10 billion",
+    b: "Over 20 billion",
+    c: "Over 41 billion",
+    d: "Over 100 billion",
+    correct: "C",
+    cat: "Sustainability & Future"
+  }, {
+    q: "Which three technologies are cited as key drivers of the 4th technological revolution?",
+    a: "AI, Blockchain, and Cloud",
+    b: "AI, VR, and IoT",
+    c: "5G, AI, and Edge Computing",
+    d: "IoT, Blockchain, and Big Data",
+    correct: "B",
+    cat: "Sustainability & Future"
+  }]
+}];
+
+// ─── STORAGE HELPERS (localStorage) ───
+const STORAGE_PREFIX = "avar_academy_";
+const sGet = async k => {
+  try {
+    const raw = localStorage.getItem(STORAGE_PREFIX + k);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+};
+const sSet = async (k, v) => {
+  try {
+    localStorage.setItem(STORAGE_PREFIX + k, JSON.stringify(v));
+  } catch (e) {
+    console.error("Storage error:", e);
+  }
+};
+
+// ─── DEFAULT INSTRUCTOR ───
+const DEFAULT_INSTRUCTOR = {
+  username: "admin",
+  password: "admin123",
+  role: "instructor"
+};
+
+// ─── STYLES ───
+const BRAND = {
+  navy: "#3B4B8A",
+  navyDark: "#2C3A6E",
+  navyDeep: "#1E2A54",
+  accent: "#5C9EF5",
+  accentLight: "#8BBDFF",
+  white: "#FFFFFF",
+  offWhite: "#F4F6FB",
+  gray100: "#E8ECF4",
+  gray200: "#CBD2E0",
+  gray400: "#8892A8",
+  gray600: "#5A6378",
+  gray800: "#2D3348",
+  success: "#34C77B",
+  successBg: "#E8F9F0",
+  danger: "#E5484D",
+  dangerBg: "#FFF0F0",
+  warning: "#F5A623",
+  warningBg: "#FFF8EB"
+};
+const css = `
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Mono:wght@400;700&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body, #root {
+  font-family: 'DM Sans', sans-serif;
+  background: ${BRAND.offWhite};
+  color: ${BRAND.gray800};
+  min-height: 100vh;
+}
+
+.mono { font-family: 'Space Mono', monospace; }
+
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .6; } }
+@keyframes scaleIn { from { opacity:0; transform: scale(0.95); } to { opacity:1; transform: scale(1); } }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+.fade-in { animation: fadeIn .4s ease-out both; }
+.slide-in { animation: slideIn .35s ease-out both; }
+.scale-in { animation: scaleIn .3s ease-out both; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 28px; border-radius: 10px; border: none;
+  font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 14px;
+  cursor: pointer; transition: all .2s ease;
+  text-decoration: none; white-space: nowrap;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: ${BRAND.navy}; color: ${BRAND.white}; }
+.btn-primary:hover { background: ${BRAND.navyDark}; box-shadow: 0 4px 16px rgba(59,75,138,.3); }
+.btn-accent { background: ${BRAND.accent}; color: ${BRAND.white}; }
+.btn-accent:hover { background: #4B8DE4; }
+.btn-outline { background: transparent; color: ${BRAND.navy}; border: 2px solid ${BRAND.gray200}; }
+.btn-outline:hover { border-color: ${BRAND.navy}; background: ${BRAND.offWhite}; }
+.btn-danger { background: ${BRAND.danger}; color: white; }
+.btn-danger:hover { background: #D13438; }
+.btn-sm { padding: 8px 18px; font-size: 13px; border-radius: 8px; }
+.btn-lg { padding: 16px 36px; font-size: 16px; border-radius: 12px; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+
+/* Inputs */
+.input-group { display: flex; flex-direction: column; gap: 6px; }
+.input-group label { font-size: 13px; font-weight: 600; color: ${BRAND.gray600}; text-transform: uppercase; letter-spacing: .5px; }
+.input-field {
+  padding: 12px 16px; border-radius: 10px; border: 2px solid ${BRAND.gray200};
+  font-family: 'DM Sans', sans-serif; font-size: 15px; color: ${BRAND.gray800};
+  transition: border-color .2s, box-shadow .2s; background: white;
+  width: 100%;
+}
+.input-field:focus { outline: none; border-color: ${BRAND.accent}; box-shadow: 0 0 0 3px rgba(92,158,245,.15); }
+
+/* Cards */
+.card {
+  background: white; border-radius: 16px; padding: 28px;
+  border: 1px solid ${BRAND.gray100};
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  transition: box-shadow .2s, transform .15s;
+}
+.card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.06); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: ${BRAND.gray200}; border-radius: 3px; }
+
+/* Timer warning */
+.timer-warning { animation: pulse 1s infinite; color: ${BRAND.danger} !important; }
+
+/* Progress bar */
+.progress-track { width: 100%; height: 6px; background: ${BRAND.gray100}; border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, ${BRAND.accent}, ${BRAND.navy}); border-radius: 3px; transition: width .3s ease; }
+
+/* Option cards for quiz */
+.option-card {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 16px 20px; border-radius: 12px; border: 2px solid ${BRAND.gray100};
+  cursor: pointer; transition: all .2s ease; background: white;
+  user-select: none;
+}
+.option-card:hover { border-color: ${BRAND.accent}; background: #F8FAFF; }
+.option-card.selected { border-color: ${BRAND.navy}; background: #EEF2FF; }
+.option-card.correct { border-color: ${BRAND.success}; background: ${BRAND.successBg}; }
+.option-card.incorrect { border-color: ${BRAND.danger}; background: ${BRAND.dangerBg}; }
+.option-letter {
+  width: 36px; height: 36px; border-radius: 10px; display: flex;
+  align-items: center; justify-content: center; font-weight: 700;
+  font-size: 14px; flex-shrink: 0; transition: all .2s;
+  background: ${BRAND.gray100}; color: ${BRAND.gray600};
+}
+.option-card.selected .option-letter { background: ${BRAND.navy}; color: white; }
+.option-card.correct .option-letter { background: ${BRAND.success}; color: white; }
+.option-card.incorrect .option-letter { background: ${BRAND.danger}; color: white; }
+
+/* Question nav dots */
+.q-dot {
+  width: 36px; height: 36px; border-radius: 10px; border: 2px solid ${BRAND.gray200};
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: all .2s;
+  background: white; color: ${BRAND.gray600};
+}
+.q-dot:hover { border-color: ${BRAND.accent}; }
+.q-dot.active { border-color: ${BRAND.navy}; background: ${BRAND.navy}; color: white; }
+.q-dot.answered { border-color: ${BRAND.accent}; background: #EEF2FF; color: ${BRAND.navy}; }
+.q-dot.flagged { border-color: ${BRAND.warning}; background: ${BRAND.warningBg}; }
+
+/* Badge */
+.badge {
+  display: inline-flex; align-items: center; padding: 4px 12px;
+  border-radius: 20px; font-size: 12px; font-weight: 600;
+}
+.badge-success { background: ${BRAND.successBg}; color: #1A7F4B; }
+.badge-danger { background: ${BRAND.dangerBg}; color: ${BRAND.danger}; }
+.badge-warning { background: ${BRAND.warningBg}; color: #B57B12; }
+.badge-info { background: #EEF2FF; color: ${BRAND.navy}; }
+
+/* Table */
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th { text-align: left; padding: 12px 16px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: ${BRAND.gray400}; border-bottom: 2px solid ${BRAND.gray100}; }
+.data-table td { padding: 14px 16px; border-bottom: 1px solid ${BRAND.gray100}; font-size: 14px; }
+.data-table tr:hover td { background: ${BRAND.offWhite}; }
+
+/* Checkbox custom */
+.custom-check {
+  display: flex; align-items: flex-start; gap: 12px; cursor: pointer;
+  padding: 14px 18px; border-radius: 12px; border: 2px solid ${BRAND.gray100};
+  transition: all .2s; user-select: none;
+}
+.custom-check:hover { border-color: ${BRAND.accent}; }
+.custom-check.checked { border-color: ${BRAND.navy}; background: #EEF2FF; }
+.check-box {
+  width: 22px; height: 22px; border-radius: 6px; border: 2px solid ${BRAND.gray200};
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: all .2s; margin-top: 1px;
+}
+.custom-check.checked .check-box { background: ${BRAND.navy}; border-color: ${BRAND.navy}; }
+`;
+
+// ─── COMPONENTS ───
+const Logo = ({
+  size = "md"
+}) => {
+  const s = size === "lg" ? 52 : size === "sm" ? 28 : 38;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: size === "lg" ? 16 : 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: s,
+      height: s,
+      borderRadius: s * 0.28,
+      background: `linear-gradient(135deg, ${BRAND.navy}, ${BRAND.accent})`,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      boxShadow: "0 2px 8px rgba(59,75,138,.25)"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: "white",
+      fontWeight: 800,
+      fontSize: s * 0.45,
+      fontFamily: "'DM Sans', sans-serif"
+    }
+  }, "A")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 700,
+      fontSize: s * 0.42,
+      color: BRAND.navyDeep,
+      lineHeight: 1.1,
+      letterSpacing: "-0.5px"
+    }
+  }, "AVAR ACADEMY"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: s * 0.26,
+      color: BRAND.gray400,
+      fontWeight: 500,
+      letterSpacing: "2px",
+      textTransform: "uppercase"
+    }
+  }, "APTITUDE TEST")));
+};
+const Icon = ({
+  name,
+  size = 18,
+  color = "currentColor"
+}) => {
+  const icons = {
+    check: /*#__PURE__*/React.createElement("path", {
+      d: "M5 13l4 4L19 7",
+      strokeWidth: "2.5",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    }),
+    x: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+      d: "M18 6L6 18",
+      strokeWidth: "2",
+      strokeLinecap: "round"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M6 6l12 12",
+      strokeWidth: "2",
+      strokeLinecap: "round"
+    })),
+    clock: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("circle", {
+      cx: "12",
+      cy: "12",
+      r: "10",
+      strokeWidth: "2"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M12 6v6l4 2",
+      strokeWidth: "2",
+      strokeLinecap: "round"
+    })),
+    user: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+      d: "M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2",
+      strokeWidth: "2"
+    }), /*#__PURE__*/React.createElement("circle", {
+      cx: "12",
+      cy: "7",
+      r: "4",
+      strokeWidth: "2"
+    })),
+    users: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+      d: "M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2",
+      strokeWidth: "2"
+    }), /*#__PURE__*/React.createElement("circle", {
+      cx: "9",
+      cy: "7",
+      r: "4",
+      strokeWidth: "2"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75",
+      strokeWidth: "2"
+    })),
+    book: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+      d: "M4 19.5A2.5 2.5 0 016.5 17H20",
+      strokeWidth: "2"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M4 4.5A2.5 2.5 0 016.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15z",
+      strokeWidth: "2"
+    })),
+    logout: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+      d: "M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4",
+      strokeWidth: "2"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M16 17l5-5-5-5M21 12H9",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    })),
+    chart: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+      d: "M18 20V10M12 20V4M6 20v-6",
+      strokeWidth: "2.5",
+      strokeLinecap: "round"
+    })),
+    flag: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+      d: "M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z",
+      strokeWidth: "2"
+    }), /*#__PURE__*/React.createElement("line", {
+      x1: "4",
+      y1: "22",
+      x2: "4",
+      y2: "15",
+      strokeWidth: "2"
+    })),
+    arrow_left: /*#__PURE__*/React.createElement("path", {
+      d: "M19 12H5M12 19l-7-7 7-7",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    }),
+    arrow_right: /*#__PURE__*/React.createElement("path", {
+      d: "M5 12h14M12 5l7 7-7 7",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    }),
+    plus: /*#__PURE__*/React.createElement("path", {
+      d: "M12 5v14M5 12h14",
+      strokeWidth: "2.5",
+      strokeLinecap: "round"
+    }),
+    trash: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+      d: "M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14",
+      strokeWidth: "2"
+    })),
+    download: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+      d: "M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4",
+      strokeWidth: "2"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M7 10l5 5 5-5M12 15V3",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    })),
+    shield: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+      d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+      strokeWidth: "2"
+    })),
+    lock: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("rect", {
+      x: "3",
+      y: "11",
+      width: "18",
+      height: "11",
+      rx: "2",
+      strokeWidth: "2"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M7 11V7a5 5 0 0110 0v4",
+      strokeWidth: "2"
+    })),
+    eye: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+      d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z",
+      strokeWidth: "2"
+    }), /*#__PURE__*/React.createElement("circle", {
+      cx: "12",
+      cy: "12",
+      r: "3",
+      strokeWidth: "2"
+    })),
+    refresh: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+      d: "M23 4v6h-6",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M1 20v-6h6",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    })),
+    copy: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("rect", {
+      x: "9",
+      y: "9",
+      width: "13",
+      height: "13",
+      rx: "2",
+      strokeWidth: "2"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1",
+      strokeWidth: "2"
+    })),
+    clipboard_check: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+      d: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2",
+      strokeWidth: "2"
+    }), /*#__PURE__*/React.createElement("rect", {
+      x: "9",
+      y: "3",
+      width: "6",
+      height: "4",
+      rx: "1",
+      strokeWidth: "2"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M9 14l2 2 4-4",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    })),
+    link: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+      d: "M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71",
+      strokeWidth: "2",
+      strokeLinecap: "round"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71",
+      strokeWidth: "2",
+      strokeLinecap: "round"
+    }))
+  };
+  return /*#__PURE__*/React.createElement("svg", {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    xmlns: "http://www.w3.org/2000/svg"
+  }, icons[name]);
+};
+
+// ─── MAIN APP ───
+function AvarAcademyApp() {
+  const [appState, setAppState] = useState("loading"); // loading, login, agreements, instructor, exam, results
+  const [currentUser, setCurrentUser] = useState(null);
+  const [allUsers, setAllUsers] = useState([]);
+  const [allResults, setAllResults] = useState([]);
+  const [loginError, setLoginError] = useState("");
+  const [loginUsername, setLoginUsername] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+
+  // Exam state
+  const [selectedModule, setSelectedModule] = useState(null);
+  const [currentQ, setCurrentQ] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const [flagged, setFlagged] = useState(new Set());
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [examStarted, setExamStarted] = useState(false);
+  const [examFinished, setExamFinished] = useState(false);
+  const [showingResults, setShowingResults] = useState(false);
+
+  // Agreements
+  const [agree1, setAgree1] = useState(false);
+  const [agree2, setAgree2] = useState(false);
+
+  // Instructor state
+  const [instrTab, setInstrTab] = useState("users");
+  const [newUser, setNewUser] = useState({
+    username: "",
+    password: "",
+    modules: [],
+    moduleTimes: {}
+  });
+  const [viewingResult, setViewingResult] = useState(null);
+  const [lastCreatedUser, setLastCreatedUser] = useState(null);
+  const [copiedId, setCopiedId] = useState(null);
+  const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
+
+  // Timer
+  const timerRef = useRef(null);
+  const autoSubmittedRef = useRef(false);
+
+  // ─── INIT ───
+  useEffect(() => {
+    let mounted = true;
+    const init = async () => {
+      try {
+        const users = await sGet("users");
+        const results = await sGet("results");
+        if (mounted) {
+          setAllUsers(users || []);
+          setAllResults(results || []);
+        }
+      } catch (e) {
+        console.error("Init error:", e);
+      }
+      if (mounted) setAppState("login");
+    };
+    // Small delay to let the component mount first
+    const t = setTimeout(init, 100);
+    return () => {
+      mounted = false;
+      clearTimeout(t);
+    };
+  }, []);
+
+  // ─── TIMER ───
+  useEffect(() => {
+    if (examStarted && !examFinished && timeLeft > 0) {
+      timerRef.current = setInterval(() => {
+        setTimeLeft(t => {
+          if (t <= 1) {
+            clearInterval(timerRef.current);
+            return 0;
+          }
+          return t - 1;
+        });
+      }, 1000);
+      return () => clearInterval(timerRef.current);
+    }
+  }, [examStarted, examFinished]);
+
+  // Auto-submit on time up
+  useEffect(() => {
+    if (examStarted && !examFinished && timeLeft === 0 && !autoSubmittedRef.current && selectedModule) {
+      autoSubmittedRef.current = true;
+      finishExam();
+    }
+  });
+
+  // ─── AUTH ───
+  const handleLogin = async () => {
+    if (loginUsername === DEFAULT_INSTRUCTOR.username && loginPassword === DEFAULT_INSTRUCTOR.password) {
+      setCurrentUser({
+        ...DEFAULT_INSTRUCTOR
+      });
+      setLoginError("");
+      setAppState("instructor");
+      return;
+    }
+    const users = (await sGet("users")) || [];
+    setAllUsers(users);
+    const user = users.find(u => u.username === loginUsername && u.password === loginPassword);
+    if (!user) {
+      setLoginError("Invalid username or password");
+      return;
+    }
+    const expiry = new Date(user.expiresAt);
+    if (expiry < new Date()) {
+      setLoginError("Your access has expired. Please contact your instructor.");
+      return;
+    }
+    setCurrentUser(user);
+    setLoginError("");
+    setAppState("agreements");
+  };
+  const handleLogout = () => {
+    setCurrentUser(null);
+    setAppState("login");
+    setLoginUsername("");
+    setLoginPassword("");
+    setLoginError("");
+    setSelectedModule(null);
+    setExamStarted(false);
+    setExamFinished(false);
+    setAnswers({});
+    setFlagged(new Set());
+    setAgree1(false);
+    setAgree2(false);
+    setShowingResults(false);
+  };
+
+  // ─── INSTRUCTOR ACTIONS ───
+  const createUser = async () => {
+    if (!newUser.username || !newUser.password || newUser.modules.length === 0) return;
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 7);
+    // Build moduleTimes with defaults for any not explicitly set
+    const finalTimes = {};
+    newUser.modules.forEach(mId => {
+      const mod = MODULES.find(m => m.id === mId);
+      finalTimes[mId] = newUser.moduleTimes[mId] || (mod ? mod.timeMinutes : 30);
+    });
+    const user = {
+      id: Date.now().toString(),
+      username: newUser.username,
+      password: newUser.password,
+      role: "user",
+      modules: newUser.modules,
+      moduleTimes: finalTimes,
+      expiresAt: expires.toISOString(),
+      createdAt: new Date().toISOString()
+    };
+    const updated = [...allUsers, user];
+    setAllUsers(updated);
+    await sSet("users", updated);
+    setLastCreatedUser(user);
+    setNewUser({
+      username: "",
+      password: "",
+      modules: [],
+      moduleTimes: {}
+    });
+  };
+  const deleteUser = async id => {
+    const updated = allUsers.filter(u => u.id !== id);
+    setAllUsers(updated);
+    await sSet("users", updated);
+    if (lastCreatedUser && lastCreatedUser.id === id) setLastCreatedUser(null);
+  };
+  const deleteResult = async id => {
+    const updated = allResults.filter(r => r.id !== id);
+    setAllResults(updated);
+    await sSet("results", updated);
+    if (viewingResult && viewingResult.id === id) setViewingResult(null);
+  };
+  const copyCredentials = user => {
+    const appUrl = window.location.href.split("?")[0];
+    const moduleLines = user.modules.map(mId => {
+      const mod = MODULES.find(m => m.id === mId);
+      const time = user.moduleTimes && user.moduleTimes[mId] || (mod ? mod.timeMinutes : 30);
+      return (mod ? mod.title : "Module " + mId) + " (" + time + " min)";
+    }).join(", ");
+    const text = ["AVAR Academy Aptitude Test", "─────────────────────────", "Link: " + appUrl, "Username: " + user.username, "Password: " + user.password, "Modules: " + moduleLines, "Expires: " + new Date(user.expiresAt).toLocaleDateString(), "", "Please log in and complete your assigned modules before the expiry date."].join("\n");
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedId(user.id);
+      setTimeout(() => setCopiedId(null), 2500);
+    }).catch(() => {});
+  };
+
+  // ─── EXAM ───
+  const getModuleTime = modId => {
+    if (currentUser && currentUser.moduleTimes && currentUser.moduleTimes[modId]) {
+      return currentUser.moduleTimes[modId];
+    }
+    const mod = MODULES.find(m => m.id === modId);
+    return mod ? mod.timeMinutes : 30;
+  };
+  const startExam = mod => {
+    autoSubmittedRef.current = false;
+    setShowConfirmSubmit(false);
+    setSelectedModule(mod);
+    setCurrentQ(0);
+    setAnswers({});
+    setFlagged(new Set());
+    setTimeLeft(getModuleTime(mod.id) * 60);
+    setExamStarted(true);
+    setExamFinished(false);
+    setShowingResults(false);
+  };
+  const handleSubmitClick = () => {
+    const totalQ = selectedModule.questions.length;
+    const answeredCount = Object.keys(answers).length;
+    const unanswered = totalQ - answeredCount;
+    if (unanswered > 0) {
+      setShowConfirmSubmit(true);
+    } else {
+      finishExam();
+    }
+  };
+  const finishExam = async () => {
+    clearInterval(timerRef.current);
+    setExamFinished(true);
+    const mod = selectedModule;
+    let correct = 0;
+    mod.questions.forEach((q, i) => {
+      if (answers[i] === q.correct) correct++;
+    });
+    const result = {
+      id: Date.now().toString(),
+      userId: currentUser.id,
+      username: currentUser.username,
+      moduleId: mod.id,
+      moduleTitle: mod.title,
+      answers: {
+        ...answers
+      },
+      correct,
+      total: mod.questions.length,
+      score: Math.round(correct / mod.questions.length * 100),
+      completedAt: new Date().toISOString()
+    };
+    const updatedResults = [...allResults, result];
+    setAllResults(updatedResults);
+    await sSet("results", updatedResults);
+    setShowingResults(true);
+  };
+  const getAttemptedModules = () => {
+    if (!currentUser) return [];
+    return allResults.filter(r => r.userId === currentUser.id).map(r => r.moduleId);
+  };
+  const getAvailableModules = () => {
+    if (!currentUser) return [];
+    const attempted = getAttemptedModules();
+    return MODULES.filter(m => currentUser.modules.includes(m.id) && !attempted.includes(m.id));
+  };
+  const formatTime = s => {
+    const m = Math.floor(s / 60);
+    const sec = s % 60;
+    return `${m.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
+  };
+  const downloadCSV = result => {
+    const mod = MODULES.find(m => m.id === result.moduleId);
+    if (!mod) return;
+    let csv = "Question,Category,User Answer,Correct Answer,Result\n";
+    mod.questions.forEach((q, i) => {
+      const ua = result.answers[i] || "—";
+      const ca = q.correct;
+      const res = ua === ca ? "Correct" : ua === "—" ? "Blank" : "Wrong";
+      csv += `"${q.q.replace(/"/g, '""')}","${q.cat}","${ua}","${ca}","${res}"\n`;
+    });
+    csv += `\nScore:,${result.score}%,Correct:,${result.correct}/${result.total}\n`;
+    const blob = new Blob([csv], {
+      type: "text/csv"
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${result.username}_${result.moduleTitle.replace(/\s+/g, "_")}_results.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // ─── RENDER ───
+  if (appState === "loading") {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("style", null, css), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        background: BRAND.offWhite
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "center"
+      },
+      className: "fade-in"
+    }, /*#__PURE__*/React.createElement(Logo, {
+      size: "lg"
+    }), /*#__PURE__*/React.createElement("p", {
+      style: {
+        marginTop: 24,
+        color: BRAND.gray400
+      }
+    }, "Loading..."))));
+  }
+
+  // ─── LOGIN ───
+  if (appState === "login") {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("style", null, css), /*#__PURE__*/React.createElement("div", {
+      style: {
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: `linear-gradient(135deg, ${BRAND.navyDeep} 0%, ${BRAND.navy} 50%, ${BRAND.accent} 100%)`,
+        padding: 20
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "card fade-in",
+      style: {
+        width: "100%",
+        maxWidth: 440,
+        padding: 40,
+        borderRadius: 20,
+        border: "none"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "center",
+        marginBottom: 36
+      }
+    }, /*#__PURE__*/React.createElement(Logo, {
+      size: "lg"
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: 20
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "input-group"
+    }, /*#__PURE__*/React.createElement("label", null, "Username"), /*#__PURE__*/React.createElement("input", {
+      className: "input-field",
+      type: "text",
+      placeholder: "Enter your username",
+      value: loginUsername,
+      onChange: e => {
+        setLoginUsername(e.target.value);
+        setLoginError("");
+      },
+      onKeyDown: e => e.key === "Enter" && handleLogin()
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "input-group"
+    }, /*#__PURE__*/React.createElement("label", null, "Password"), /*#__PURE__*/React.createElement("input", {
+      className: "input-field",
+      type: "password",
+      placeholder: "Enter your password",
+      value: loginPassword,
+      onChange: e => {
+        setLoginPassword(e.target.value);
+        setLoginError("");
+      },
+      onKeyDown: e => e.key === "Enter" && handleLogin()
+    })), loginError && /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "12px 16px",
+        borderRadius: 10,
+        background: BRAND.dangerBg,
+        color: BRAND.danger,
+        fontSize: 14,
+        fontWeight: 500
+      }
+    }, loginError), /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-primary btn-lg",
+      style: {
+        width: "100%",
+        justifyContent: "center",
+        marginTop: 4
+      },
+      onClick: handleLogin
+    }, "Sign In")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: 32,
+        textAlign: "center",
+        fontSize: 12,
+        color: BRAND.gray400
+      }
+    }, "AVAR Academy \u2014 Data Center Fundamentals"))));
+  }
+
+  // ─── AGREEMENTS ───
+  if (appState === "agreements") {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("style", null, css), /*#__PURE__*/React.createElement("div", {
+      style: {
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: `linear-gradient(135deg, ${BRAND.navyDeep} 0%, ${BRAND.navy} 50%, ${BRAND.accent} 100%)`,
+        padding: 20
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "card fade-in",
+      style: {
+        width: "100%",
+        maxWidth: 560,
+        padding: 40,
+        borderRadius: 20,
+        border: "none"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "center",
+        marginBottom: 28
+      }
+    }, /*#__PURE__*/React.createElement(Logo, {
+      size: "md"
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "center",
+        marginBottom: 8
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "shield",
+      size: 40,
+      color: BRAND.navy
+    })), /*#__PURE__*/React.createElement("h2", {
+      style: {
+        textAlign: "center",
+        fontSize: 22,
+        fontWeight: 700,
+        color: BRAND.navyDeep,
+        marginBottom: 6
+      }
+    }, "Before You Begin"), /*#__PURE__*/React.createElement("p", {
+      style: {
+        textAlign: "center",
+        fontSize: 14,
+        color: BRAND.gray400,
+        marginBottom: 28
+      }
+    }, "Please read and agree to the following declarations"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: 16,
+        marginBottom: 28
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: `custom-check ${agree1 ? "checked" : ""}`,
+      onClick: () => setAgree1(!agree1)
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "check-box"
+    }, agree1 && /*#__PURE__*/React.createElement(Icon, {
+      name: "check",
+      size: 14,
+      color: "white"
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 14,
+        lineHeight: 1.6,
+        color: BRAND.gray800
+      }
+    }, /*#__PURE__*/React.createElement("strong", null, "Integrity Declaration:"), " I confirm that I am taking this exam independently, without external assistance, notes, or any unauthorized materials. I understand that any form of cheating will result in the invalidation of my results.")), /*#__PURE__*/React.createElement("div", {
+      className: `custom-check ${agree2 ? "checked" : ""}`,
+      onClick: () => setAgree2(!agree2)
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "check-box"
+    }, agree2 && /*#__PURE__*/React.createElement(Icon, {
+      name: "check",
+      size: 14,
+      color: "white"
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 14,
+        lineHeight: 1.6,
+        color: BRAND.gray800
+      }
+    }, /*#__PURE__*/React.createElement("strong", null, "Intellectual Property Agreement:"), " I acknowledge that all questions, content, and materials in this assessment are the intellectual property of AVAR Academy. I agree not to reproduce, distribute, share, or use these questions externally in any form."))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 12
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-outline",
+      onClick: handleLogout,
+      style: {
+        flex: 1,
+        justifyContent: "center"
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "arrow_left",
+      size: 16
+    }), " Back"), /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-primary btn-lg",
+      style: {
+        flex: 2,
+        justifyContent: "center"
+      },
+      disabled: !agree1 || !agree2,
+      onClick: () => setAppState("exam")
+    }, "I Agree & Continue")))));
+  }
+
+  // ─── INSTRUCTOR DASHBOARD ───
+  if (appState === "instructor") {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("style", null, css), /*#__PURE__*/React.createElement("div", {
+      style: {
+        minHeight: "100vh",
+        background: BRAND.offWhite
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "white",
+        borderBottom: `1px solid ${BRAND.gray100}`,
+        padding: "16px 32px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between"
+      }
+    }, /*#__PURE__*/React.createElement(Logo, {
+      size: "sm"
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 16
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "badge badge-info"
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "user",
+      size: 14
+    }), " Instructor"), /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-outline btn-sm",
+      onClick: handleLogout
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "logout",
+      size: 15
+    }), " Logout"))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "0 32px",
+        background: "white",
+        borderBottom: `1px solid ${BRAND.gray100}`
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 0
+      }
+    }, [{
+      key: "users",
+      label: "User Management",
+      icon: "users"
+    }, {
+      key: "results",
+      label: "Results",
+      icon: "chart"
+    }].map(tab => /*#__PURE__*/React.createElement("button", {
+      key: tab.key,
+      onClick: () => {
+        setInstrTab(tab.key);
+        setViewingResult(null);
+      },
+      style: {
+        padding: "16px 24px",
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        borderBottom: instrTab === tab.key ? `3px solid ${BRAND.navy}` : "3px solid transparent",
+        color: instrTab === tab.key ? BRAND.navy : BRAND.gray400,
+        fontWeight: instrTab === tab.key ? 700 : 500,
+        fontSize: 14,
+        fontFamily: "'DM Sans', sans-serif",
+        transition: "all .2s"
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: tab.icon,
+      size: 16
+    }), " ", tab.label)))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: 32,
+        maxWidth: 1100,
+        margin: "0 auto"
+      }
+    }, instrTab === "users" && /*#__PURE__*/React.createElement("div", {
+      className: "fade-in"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "card",
+      style: {
+        marginBottom: 24
+      }
+    }, /*#__PURE__*/React.createElement("h3", {
+      style: {
+        fontSize: 18,
+        fontWeight: 700,
+        marginBottom: 20,
+        color: BRAND.navyDeep
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "plus",
+      size: 20,
+      color: BRAND.navy
+    }), " Create New User"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 16,
+        flexWrap: "wrap",
+        alignItems: "flex-end"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "input-group",
+      style: {
+        flex: "1 1 180px"
+      }
+    }, /*#__PURE__*/React.createElement("label", null, "Username"), /*#__PURE__*/React.createElement("input", {
+      className: "input-field",
+      value: newUser.username,
+      onChange: e => setNewUser({
+        ...newUser,
+        username: e.target.value
+      })
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "input-group",
+      style: {
+        flex: "1 1 180px"
+      }
+    }, /*#__PURE__*/React.createElement("label", null, "Password"), /*#__PURE__*/React.createElement("input", {
+      className: "input-field",
+      value: newUser.password,
+      onChange: e => setNewUser({
+        ...newUser,
+        password: e.target.value
+      })
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "input-group",
+      style: {
+        flex: "2 1 300px"
+      }
+    }, /*#__PURE__*/React.createElement("label", null, "Assign Modules"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 6
+      }
+    }, MODULES.map(m => /*#__PURE__*/React.createElement("button", {
+      key: m.id,
+      className: `btn btn-sm ${newUser.modules.includes(m.id) ? "btn-primary" : "btn-outline"}`,
+      style: {
+        fontSize: 12,
+        padding: "6px 12px"
+      },
+      onClick: () => {
+        const mods = newUser.modules.includes(m.id) ? newUser.modules.filter(x => x !== m.id) : [...newUser.modules, m.id];
+        const times = {
+          ...newUser.moduleTimes
+        };
+        if (!mods.includes(m.id)) {
+          delete times[m.id];
+        } else if (!times[m.id]) {
+          times[m.id] = m.timeMinutes;
+        }
+        setNewUser({
+          ...newUser,
+          modules: mods,
+          moduleTimes: times
+        });
+      }
+    }, "M", m.id))), newUser.modules.length > 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: 12,
+        display: "flex",
+        flexDirection: "column",
+        gap: 8
+      }
+    }, /*#__PURE__*/React.createElement("label", {
+      style: {
+        fontSize: 12,
+        color: BRAND.gray400,
+        fontWeight: 600,
+        textTransform: "uppercase",
+        letterSpacing: ".5px"
+      }
+    }, "Time per Module (minutes)"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 10
+      }
+    }, newUser.modules.sort((a, b) => a - b).map(mId => {
+      const mod = MODULES.find(m => m.id === mId);
+      return /*#__PURE__*/React.createElement("div", {
+        key: mId,
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          background: BRAND.offWhite,
+          borderRadius: 10,
+          padding: "6px 12px",
+          border: `1px solid ${BRAND.gray100}`
+        }
+      }, /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontSize: 13,
+          fontWeight: 600,
+          color: BRAND.navy
+        }
+      }, "M", mId), /*#__PURE__*/React.createElement("input", {
+        type: "number",
+        min: "5",
+        max: "180",
+        value: newUser.moduleTimes[mId] || (mod ? mod.timeMinutes : 30),
+        onChange: e => {
+          const val = parseInt(e.target.value) || 30;
+          setNewUser({
+            ...newUser,
+            moduleTimes: {
+              ...newUser.moduleTimes,
+              [mId]: val
+            }
+          });
+        },
+        style: {
+          width: 56,
+          padding: "4px 6px",
+          borderRadius: 6,
+          border: `1px solid ${BRAND.gray200}`,
+          fontSize: 13,
+          textAlign: "center",
+          fontFamily: "'Space Mono', monospace",
+          background: "white"
+        }
+      }), /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontSize: 12,
+          color: BRAND.gray400
+        }
+      }, "min"));
+    })))), /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-primary",
+      onClick: createUser,
+      disabled: !newUser.username || !newUser.password || newUser.modules.length === 0
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "plus",
+      size: 16
+    }), " Create"))), lastCreatedUser && /*#__PURE__*/React.createElement("div", {
+      className: "card scale-in",
+      style: {
+        marginBottom: 24,
+        border: `2px solid ${BRAND.success}`,
+        background: "linear-gradient(135deg, #F0FFF6 0%, #FAFFFE 100%)"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "space-between",
+        gap: 16,
+        flexWrap: "wrap"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        minWidth: 240
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        marginBottom: 12
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "check",
+      size: 20,
+      color: BRAND.success
+    }), /*#__PURE__*/React.createElement("h4", {
+      style: {
+        fontSize: 16,
+        fontWeight: 700,
+        color: "#1A7F4B"
+      }
+    }, "User Created Successfully")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "white",
+        borderRadius: 12,
+        padding: 16,
+        border: `1px solid ${BRAND.gray100}`,
+        fontFamily: "'Space Mono', monospace",
+        fontSize: 13,
+        lineHeight: 2,
+        color: BRAND.gray800,
+        whiteSpace: "pre-wrap"
+      }
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: BRAND.gray400
+      }
+    }, "Link:"), " ", window.location.href.split("?")[0]), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: BRAND.gray400
+      }
+    }, "Username:"), " ", /*#__PURE__*/React.createElement("strong", null, lastCreatedUser.username)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: BRAND.gray400
+      }
+    }, "Password:"), " ", /*#__PURE__*/React.createElement("strong", null, lastCreatedUser.password)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: BRAND.gray400
+      }
+    }, "Modules:"), " ", lastCreatedUser.modules.map(mId => {
+      const t = lastCreatedUser.moduleTimes && lastCreatedUser.moduleTimes[mId] || 30;
+      return "M" + mId + " (" + t + "min)";
+    }).join(", ")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: BRAND.gray400
+      }
+    }, "Expires:"), " ", new Date(lastCreatedUser.expiresAt).toLocaleDateString()))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: 8,
+        alignSelf: "center"
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      className: `btn ${copiedId === lastCreatedUser.id ? "btn-accent" : "btn-primary"}`,
+      onClick: () => copyCredentials(lastCreatedUser)
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: copiedId === lastCreatedUser.id ? "clipboard_check" : "copy",
+      size: 16
+    }), copiedId === lastCreatedUser.id ? "Copied!" : "Copy Credentials"), /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-outline btn-sm",
+      style: {
+        justifyContent: "center"
+      },
+      onClick: () => setLastCreatedUser(null)
+    }, "Dismiss")))), /*#__PURE__*/React.createElement("div", {
+      className: "card"
+    }, /*#__PURE__*/React.createElement("h3", {
+      style: {
+        fontSize: 18,
+        fontWeight: 700,
+        marginBottom: 20,
+        color: BRAND.navyDeep
+      }
+    }, "Active Users (", allUsers.length, ")"), allUsers.length === 0 ? /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: BRAND.gray400,
+        textAlign: "center",
+        padding: 40
+      }
+    }, "No users created yet") : /*#__PURE__*/React.createElement("div", {
+      style: {
+        overflowX: "auto"
+      }
+    }, /*#__PURE__*/React.createElement("table", {
+      className: "data-table"
+    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Username"), /*#__PURE__*/React.createElement("th", null, "Password"), /*#__PURE__*/React.createElement("th", null, "Modules"), /*#__PURE__*/React.createElement("th", null, "Expires"), /*#__PURE__*/React.createElement("th", null, "Status"), /*#__PURE__*/React.createElement("th", null, "Actions"))), /*#__PURE__*/React.createElement("tbody", null, allUsers.map(u => {
+      const expired = new Date(u.expiresAt) < new Date();
+      return /*#__PURE__*/React.createElement("tr", {
+        key: u.id
+      }, /*#__PURE__*/React.createElement("td", {
+        style: {
+          fontWeight: 600
+        }
+      }, u.username), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("span", {
+        className: "mono",
+        style: {
+          fontSize: 13
+        }
+      }, u.password)), /*#__PURE__*/React.createElement("td", null, u.modules.map(m => {
+        const t = u.moduleTimes && u.moduleTimes[m] || 30;
+        return /*#__PURE__*/React.createElement("span", {
+          key: m,
+          className: "badge badge-info",
+          style: {
+            marginRight: 4
+          },
+          title: t + " minutes"
+        }, "M", m, " ", /*#__PURE__*/React.createElement("span", {
+          style: {
+            opacity: .6,
+            fontSize: 10
+          }
+        }, t, "m"));
+      })), /*#__PURE__*/React.createElement("td", {
+        style: {
+          fontSize: 13
+        }
+      }, new Date(u.expiresAt).toLocaleDateString()), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("span", {
+        className: `badge ${expired ? "badge-danger" : "badge-success"}`
+      }, expired ? "Expired" : "Active")), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("div", {
+        style: {
+          display: "flex",
+          gap: 6
+        }
+      }, /*#__PURE__*/React.createElement("button", {
+        className: `btn btn-sm ${copiedId === u.id ? "btn-accent" : "btn-outline"}`,
+        style: {
+          padding: "4px 10px"
+        },
+        onClick: () => copyCredentials(u),
+        title: "Copy login credentials"
+      }, /*#__PURE__*/React.createElement(Icon, {
+        name: copiedId === u.id ? "clipboard_check" : "link",
+        size: 14,
+        color: copiedId === u.id ? "white" : BRAND.navy
+      })), /*#__PURE__*/React.createElement("button", {
+        className: "btn btn-sm btn-outline",
+        style: {
+          padding: "4px 10px",
+          color: BRAND.danger,
+          borderColor: BRAND.danger
+        },
+        onClick: () => deleteUser(u.id)
+      }, /*#__PURE__*/React.createElement(Icon, {
+        name: "trash",
+        size: 14,
+        color: BRAND.danger
+      })))));
+    })))))), instrTab === "results" && !viewingResult && /*#__PURE__*/React.createElement("div", {
+      className: "fade-in"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "card"
+    }, /*#__PURE__*/React.createElement("h3", {
+      style: {
+        fontSize: 18,
+        fontWeight: 700,
+        marginBottom: 20,
+        color: BRAND.navyDeep
+      }
+    }, "All Results (", allResults.length, ")"), allResults.length === 0 ? /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: BRAND.gray400,
+        textAlign: "center",
+        padding: 40
+      }
+    }, "No results yet") : /*#__PURE__*/React.createElement("div", {
+      style: {
+        overflowX: "auto"
+      }
+    }, /*#__PURE__*/React.createElement("table", {
+      className: "data-table"
+    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "User"), /*#__PURE__*/React.createElement("th", null, "Module"), /*#__PURE__*/React.createElement("th", null, "Score"), /*#__PURE__*/React.createElement("th", null, "Correct"), /*#__PURE__*/React.createElement("th", null, "Date"), /*#__PURE__*/React.createElement("th", null, "Actions"))), /*#__PURE__*/React.createElement("tbody", null, allResults.map(r => /*#__PURE__*/React.createElement("tr", {
+      key: r.id
+    }, /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontWeight: 600
+      }
+    }, r.username), /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontSize: 13
+      }
+    }, r.moduleTitle), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("span", {
+      className: `badge ${r.score >= 70 ? "badge-success" : r.score >= 50 ? "badge-warning" : "badge-danger"}`
+    }, r.score, "%")), /*#__PURE__*/React.createElement("td", null, r.correct, "/", r.total), /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontSize: 13
+      }
+    }, new Date(r.completedAt).toLocaleString()), /*#__PURE__*/React.createElement("td", {
+      style: {
+        display: "flex",
+        gap: 8
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-sm btn-outline",
+      onClick: () => setViewingResult(r)
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "eye",
+      size: 14
+    }), " View"), /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-sm btn-primary",
+      onClick: () => downloadCSV(r)
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "download",
+      size: 14
+    }), " CSV"), /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-sm btn-outline",
+      style: {
+        padding: "4px 10px",
+        color: BRAND.danger,
+        borderColor: BRAND.danger
+      },
+      onClick: () => deleteResult(r.id),
+      title: "Delete result"
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "trash",
+      size: 14,
+      color: BRAND.danger
+    })))))))))), instrTab === "results" && viewingResult && /*#__PURE__*/React.createElement("div", {
+      className: "fade-in"
+    }, /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-outline btn-sm",
+      style: {
+        marginBottom: 16
+      },
+      onClick: () => setViewingResult(null)
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "arrow_left",
+      size: 14
+    }), " Back to Results"), /*#__PURE__*/React.createElement(ResultsView, {
+      result: viewingResult
+    })))));
+  }
+
+  // ─── USER: MODULE SELECTION ───
+  if (appState === "exam" && !examStarted) {
+    const available = getAvailableModules();
+    const attempted = getAttemptedModules();
+    const myResults = allResults.filter(r => r.userId === currentUser.id);
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("style", null, css), /*#__PURE__*/React.createElement("div", {
+      style: {
+        minHeight: "100vh",
+        background: BRAND.offWhite
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "white",
+        borderBottom: `1px solid ${BRAND.gray100}`,
+        padding: "16px 32px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between"
+      }
+    }, /*#__PURE__*/React.createElement(Logo, {
+      size: "sm"
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 16
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 14,
+        color: BRAND.gray600
+      }
+    }, "Welcome, ", /*#__PURE__*/React.createElement("strong", null, currentUser.username)), /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-outline btn-sm",
+      onClick: handleLogout
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "logout",
+      size: 15
+    }), " Logout"))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: 32,
+        maxWidth: 800,
+        margin: "0 auto"
+      }
+    }, /*#__PURE__*/React.createElement("h2", {
+      style: {
+        fontSize: 26,
+        fontWeight: 700,
+        color: BRAND.navyDeep,
+        marginBottom: 8
+      },
+      className: "fade-in"
+    }, "Your Modules"), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: BRAND.gray400,
+        marginBottom: 32,
+        fontSize: 15
+      },
+      className: "fade-in"
+    }, "Select a module to begin your assessment. Each module can only be attempted once."), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: 16
+      }
+    }, currentUser.modules.map((mId, idx) => {
+      const mod = MODULES.find(m => m.id === mId);
+      if (!mod) return null;
+      const done = attempted.includes(mId);
+      const result = myResults.find(r => r.moduleId === mId);
+      return /*#__PURE__*/React.createElement("div", {
+        key: mId,
+        className: "card fade-in",
+        style: {
+          animationDelay: `${idx * 80}ms`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 16,
+          flexWrap: "wrap"
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          flex: 1
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          marginBottom: 6
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          width: 40,
+          height: 40,
+          borderRadius: 12,
+          background: done ? BRAND.gray100 : `linear-gradient(135deg, ${BRAND.navy}, ${BRAND.accent})`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: done ? BRAND.gray400 : "white",
+          fontWeight: 800,
+          fontSize: 16
+        }
+      }, mId), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+        style: {
+          fontSize: 16,
+          fontWeight: 700,
+          color: done ? BRAND.gray400 : BRAND.navyDeep
+        }
+      }, mod.title), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 13,
+          color: BRAND.gray400
+        }
+      }, mod.questions.length, " questions \xB7 ", getModuleTime(mId), " minutes")))), /*#__PURE__*/React.createElement("div", {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: 12
+        }
+      }, done && result && /*#__PURE__*/React.createElement("span", {
+        className: `badge ${result.score >= 70 ? "badge-success" : result.score >= 50 ? "badge-warning" : "badge-danger"}`
+      }, "Score: ", result.score, "%"), done ? /*#__PURE__*/React.createElement("span", {
+        className: "badge badge-info",
+        style: {
+          opacity: 0.7
+        }
+      }, "Completed") : /*#__PURE__*/React.createElement("button", {
+        className: "btn btn-primary btn-sm",
+        onClick: () => startExam(mod)
+      }, "Take Exam ", /*#__PURE__*/React.createElement(Icon, {
+        name: "arrow_right",
+        size: 14
+      }))));
+    })), available.length === 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: 32,
+        textAlign: "center",
+        color: BRAND.gray400,
+        padding: 32
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "check",
+      size: 48,
+      color: BRAND.success
+    }), /*#__PURE__*/React.createElement("p", {
+      style: {
+        marginTop: 12,
+        fontSize: 16,
+        fontWeight: 600
+      }
+    }, "All modules completed!")))));
+  }
+
+  // ─── EXAM IN PROGRESS ───
+  if (appState === "exam" && examStarted && !showingResults) {
+    const q = selectedModule.questions[currentQ];
+    const opts = ["A", "B", "C", "D"];
+    const answeredCount = Object.keys(answers).length;
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("style", null, css), /*#__PURE__*/React.createElement("div", {
+      style: {
+        minHeight: "100vh",
+        background: BRAND.offWhite,
+        display: "flex",
+        flexDirection: "column"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "white",
+        borderBottom: `1px solid ${BRAND.gray100}`,
+        padding: "12px 24px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        position: "sticky",
+        top: 0,
+        zIndex: 100
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 16
+      }
+    }, /*#__PURE__*/React.createElement(Logo, {
+      size: "sm"
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 1,
+        height: 28,
+        background: BRAND.gray200
+      }
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 14,
+        fontWeight: 600,
+        color: BRAND.navy
+      }
+    }, selectedModule.title)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 20
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "clock",
+      size: 18,
+      color: timeLeft <= 120 ? BRAND.danger : BRAND.gray600
+    }), /*#__PURE__*/React.createElement("span", {
+      className: `mono ${timeLeft <= 120 ? "timer-warning" : ""}`,
+      style: {
+        fontSize: 20,
+        fontWeight: 700,
+        color: timeLeft <= 120 ? BRAND.danger : BRAND.navyDeep
+      }
+    }, formatTime(timeLeft))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        color: BRAND.gray400
+      }
+    }, answeredCount, "/", selectedModule.questions.length, " answered"))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "0 24px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "progress-track",
+      style: {
+        margin: "0"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "progress-fill",
+      style: {
+        width: `${answeredCount / selectedModule.questions.length * 100}%`
+      }
+    }))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        padding: "24px",
+        maxWidth: 900,
+        margin: "0 auto",
+        width: "100%"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 6,
+        marginBottom: 24,
+        justifyContent: "center"
+      }
+    }, selectedModule.questions.map((_, i) => /*#__PURE__*/React.createElement("div", {
+      key: i,
+      className: `q-dot ${i === currentQ ? "active" : ""} ${answers[i] ? "answered" : ""} ${flagged.has(i) ? "flagged" : ""}`,
+      onClick: () => setCurrentQ(i)
+    }, i + 1))), /*#__PURE__*/React.createElement("div", {
+      className: "card scale-in",
+      key: currentQ,
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginBottom: 8
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "badge badge-info"
+    }, q.cat), /*#__PURE__*/React.createElement("button", {
+      className: `btn btn-sm ${flagged.has(currentQ) ? "btn-accent" : "btn-outline"}`,
+      style: {
+        padding: "6px 12px"
+      },
+      onClick: () => {
+        const f = new Set(flagged);
+        if (f.has(currentQ)) f.delete(currentQ);else f.add(currentQ);
+        setFlagged(f);
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "flag",
+      size: 14
+    }), " ", flagged.has(currentQ) ? "Flagged" : "Flag")), /*#__PURE__*/React.createElement("h3", {
+      style: {
+        fontSize: 18,
+        fontWeight: 600,
+        color: BRAND.navyDeep,
+        lineHeight: 1.5,
+        marginBottom: 24
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: BRAND.gray400,
+        marginRight: 8
+      }
+    }, "Q", currentQ + 1, "."), q.q), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: 10
+      }
+    }, opts.map(letter => /*#__PURE__*/React.createElement("div", {
+      key: letter,
+      className: `option-card ${answers[currentQ] === letter ? "selected" : ""}`,
+      onClick: () => setAnswers({
+        ...answers,
+        [currentQ]: letter
+      })
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "option-letter"
+    }, letter), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 15,
+        lineHeight: 1.5,
+        paddingTop: 6
+      }
+    }, q[letter.toLowerCase()]))))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        marginTop: 20,
+        gap: 12
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-outline",
+      disabled: currentQ === 0,
+      onClick: () => setCurrentQ(currentQ - 1)
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "arrow_left",
+      size: 16
+    }), " Previous"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 12
+      }
+    }, currentQ === selectedModule.questions.length - 1 ? /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-primary",
+      onClick: handleSubmitClick
+    }, "Submit Exam ", /*#__PURE__*/React.createElement(Icon, {
+      name: "check",
+      size: 16
+    })) : /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-primary",
+      onClick: () => setCurrentQ(currentQ + 1)
+    }, "Next ", /*#__PURE__*/React.createElement(Icon, {
+      name: "arrow_right",
+      size: 16
+    }))))), showConfirmSubmit && /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: "rgba(30,42,84,0.55)",
+        backdropFilter: "blur(4px)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 1000,
+        padding: 20
+      },
+      onClick: () => setShowConfirmSubmit(false)
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "card scale-in",
+      style: {
+        maxWidth: 480,
+        width: "100%",
+        padding: 32,
+        border: "none",
+        boxShadow: "0 20px 60px rgba(0,0,0,.2)"
+      },
+      onClick: e => e.stopPropagation()
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "center",
+        marginBottom: 8
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 56,
+        height: 56,
+        borderRadius: "50%",
+        margin: "0 auto 16px",
+        background: BRAND.warningBg,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "flag",
+      size: 28,
+      color: BRAND.warning
+    })), /*#__PURE__*/React.createElement("h3", {
+      style: {
+        fontSize: 20,
+        fontWeight: 700,
+        color: BRAND.navyDeep,
+        marginBottom: 8
+      }
+    }, "Unanswered Questions"), /*#__PURE__*/React.createElement("p", {
+      style: {
+        fontSize: 15,
+        color: BRAND.gray600,
+        lineHeight: 1.6,
+        marginBottom: 4
+      }
+    }, "You have ", /*#__PURE__*/React.createElement("strong", {
+      style: {
+        color: BRAND.danger
+      }
+    }, selectedModule.questions.length - Object.keys(answers).length, " unanswered"), " out of ", selectedModule.questions.length, " questions."), /*#__PURE__*/React.createElement("p", {
+      style: {
+        fontSize: 14,
+        color: BRAND.gray400
+      }
+    }, "Unanswered questions will be marked as incorrect. Are you sure you want to submit?")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 12,
+        marginTop: 24
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-outline",
+      style: {
+        flex: 1,
+        justifyContent: "center"
+      },
+      onClick: () => setShowConfirmSubmit(false)
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "arrow_left",
+      size: 15
+    }), " Review Answers"), /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-danger",
+      style: {
+        flex: 1,
+        justifyContent: "center"
+      },
+      onClick: () => {
+        setShowConfirmSubmit(false);
+        finishExam();
+      }
+    }, "Submit Anyway ", /*#__PURE__*/React.createElement(Icon, {
+      name: "check",
+      size: 15
+    })))))));
+  }
+
+  // ─── RESULTS VIEW (User) ───
+  if (appState === "exam" && showingResults) {
+    const myResult = allResults.filter(r => r.userId === currentUser.id && r.moduleId === selectedModule.id).pop();
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("style", null, css), /*#__PURE__*/React.createElement("div", {
+      style: {
+        minHeight: "100vh",
+        background: BRAND.offWhite
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "white",
+        borderBottom: `1px solid ${BRAND.gray100}`,
+        padding: "16px 32px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between"
+      }
+    }, /*#__PURE__*/React.createElement(Logo, {
+      size: "sm"
+    }), /*#__PURE__*/React.createElement("button", {
+      className: "btn btn-outline btn-sm",
+      onClick: () => {
+        setExamStarted(false);
+        setExamFinished(false);
+        setShowingResults(false);
+        setSelectedModule(null);
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "arrow_left",
+      size: 14
+    }), " Back to Modules")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: 32,
+        maxWidth: 900,
+        margin: "0 auto"
+      }
+    }, myResult && /*#__PURE__*/React.createElement(ResultsView, {
+      result: myResult,
+      onDownload: () => downloadCSV(myResult)
+    }))));
+  }
+  return null;
+}
+
+// ─── RESULTS VIEW COMPONENT ───
+function ResultsView({
+  result,
+  onDownload
+}) {
+  const mod = MODULES.find(m => m.id === result.moduleId);
+  if (!mod) return null;
+  const passed = result.score >= 70;
+  return /*#__PURE__*/React.createElement("div", {
+    className: "fade-in"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "card",
+    style: {
+      textAlign: "center",
+      marginBottom: 24,
+      padding: 40,
+      background: passed ? `linear-gradient(135deg, #E8F9F0 0%, #F0FFF6 100%)` : `linear-gradient(135deg, #FFF0F0 0%, #FFF8F8 100%)`,
+      border: `2px solid ${passed ? "#34C77B" : "#E5484D"}`
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 80,
+      height: 80,
+      borderRadius: "50%",
+      margin: "0 auto 16px",
+      background: passed ? "#34C77B" : "#E5484D",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: "white",
+      fontSize: 28,
+      fontWeight: 800
+    }
+  }, result.score, "%")), /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontSize: 24,
+      fontWeight: 700,
+      color: passed ? "#1A7F4B" : "#C42B2F",
+      marginBottom: 4
+    }
+  }, passed ? "Congratulations!" : "Not Passed"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: passed ? "#2D9E5E" : "#D35050",
+      fontSize: 15,
+      marginBottom: 16
+    }
+  }, result.correct, " out of ", result.total, " correct \u2014 ", result.moduleTitle), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: "#888"
+    }
+  }, "Completed: ", new Date(result.completedAt).toLocaleString(), " \xB7 Candidate: ", result.username), onDownload && /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-outline btn-sm",
+    style: {
+      marginTop: 16
+    },
+    onClick: onDownload
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "14",
+    height: "14",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M7 10l5 5 5-5M12 15V3"
+  })), "Download CSV")), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("h3", {
+    style: {
+      fontSize: 18,
+      fontWeight: 700,
+      marginBottom: 20,
+      color: "#1E2A54"
+    }
+  }, "Detailed Results"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 12
+    }
+  }, mod.questions.map((q, i) => {
+    const userAns = result.answers[i] || "—";
+    const isCorrect = userAns === q.correct;
+    const isBlank = userAns === "—";
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        padding: "16px 20px",
+        borderRadius: 12,
+        border: `1px solid ${isCorrect ? "#D4F0E0" : isBlank ? "#E8ECF4" : "#FFD5D5"}`,
+        background: isCorrect ? "#FAFFFE" : isBlank ? "#FAFBFD" : "#FFFAFA"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "space-between",
+        gap: 12
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        marginBottom: 6
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 13,
+        fontWeight: 700,
+        color: "#8892A8"
+      }
+    }, "Q", i + 1), /*#__PURE__*/React.createElement("span", {
+      className: `badge ${isCorrect ? "badge-success" : isBlank ? "badge-info" : "badge-danger"}`,
+      style: {
+        fontSize: 11
+      }
+    }, isCorrect ? "Correct" : isBlank ? "Blank" : "Incorrect")), /*#__PURE__*/React.createElement("p", {
+      style: {
+        fontSize: 14,
+        lineHeight: 1.5,
+        color: "#2D3348",
+        marginBottom: 8
+      }
+    }, q.q), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        color: "#5A6378"
+      }
+    }, !isBlank && !isCorrect && /*#__PURE__*/React.createElement("span", null, "Your answer: ", /*#__PURE__*/React.createElement("strong", null, userAns), " \xB7 "), "Correct: ", /*#__PURE__*/React.createElement("strong", {
+      style: {
+        color: "#1A7F4B"
+      }
+    }, q.correct)))));
+  }))));
+}
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(React.createElement(AvarAcademyApp));
+
+  </script>
+</body>
+</html>
